@@ -35,4 +35,4 @@ def say_hello(request):
     
     queryset = Product.objects.all()[5:10]
     
-    return render(request, 'hello.html', {'name': 'Ayub', 'products': product})
+    return render(request, 'hello.html', {'name': 'Ayub', 'products': queryset})
