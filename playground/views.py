@@ -33,7 +33,7 @@ def say_hello(request):
     
     # limiting results
     
-    queryset = Product.objects.filter(
-        id__in = OrderItem.objects.values('product_id').distinct()).order_by('title')
+    # queryset = Product.objects.only('id', 'title')
+    queryset = Product.objects.prefetch_related('promotions').select_related('collection')
     
     return render(request, 'hello.html', {'name': 'Ayub', 'products': queryset})
