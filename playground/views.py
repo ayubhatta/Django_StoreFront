@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product, OrderItem
 from django.db.models import Q, F
+from django.db.models.aggregates import Count, Max, Min, Avg, Sum
 
 
 def say_hello(request):
@@ -34,6 +35,10 @@ def say_hello(request):
     # limiting results
     
     # queryset = Product.objects.only('id', 'title')
-    queryset = Product.objects.prefetch_related('promotions').select_related('collection')
-    
-    return render(request, 'hello.html', {'name': 'Ayub', 'products': queryset})
+    result = Product.objects.filter(collection__id = 1).aggregate(count =  Count('id'), 
+                                       min_price = Min('unit_price'), 
+                                       max_price = Max('unit_price'), 
+                                       avg_price = Avg('unit_price'), 
+                                       total_price = Sum('unit_price'))
+      
+    return render(request, 'hello.html', {'name': 'Ayub', 'result': result})
