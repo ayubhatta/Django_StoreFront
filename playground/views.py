@@ -1,11 +1,11 @@
+from django.forms import DecimalField
 from django.shortcuts import render
-from django.core.exceptions import ObjectDoesNotExist
-from store.models import Product, OrderItem
-from django.db.models import Q, F
+from store.models import Customer, Product, OrderItem
+from django.db.models import Q, F, Value, Func, ExpressionWrapper
 from django.db.models.aggregates import Count, Max, Min, Avg, Sum
+from django.db.models.functions import Concat
 
-
-def say_hello(request):
+# def say_hello(request):
     
     # Q objects are used to make complex queries with logical operators
     
@@ -35,10 +35,15 @@ def say_hello(request):
     # limiting results
     
     # queryset = Product.objects.only('id', 'title')
-    result = Product.objects.filter(collection__id = 1).aggregate(count =  Count('id'), 
-                                       min_price = Min('unit_price'), 
-                                       max_price = Max('unit_price'), 
-                                       avg_price = Avg('unit_price'), 
-                                       total_price = Sum('unit_price'))
+    # result = Product.objects.filter(collection__id = 1).aggregate(count =  Count('id'), 
+    #                                    min_price = Min('unit_price'), 
+    #                                    max_price = Max('unit_price'), 
+    #                                    avg_price = Avg('unit_price'), 
+    #                                    total_price = Sum('unit_price'))
       
-    return render(request, 'hello.html', {'name': 'Ayub', 'result': result})
+      
+def say_hello(request):
+    
+    queryset = Product.objects.order_by('unit_price', '-title').reverse() 
+    
+    return render(request, 'hello.html', {'name': 'Ayub', 'result': queryset})
