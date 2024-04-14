@@ -14,11 +14,9 @@ from django.db.models.functions import Concat
     #     )
     
     
-    
     # f objects are used to make queries with complex conditions
     
     #queryset = Product.objects.filter(inventory=F('collection__id'))
-    
     
     
     # Sorting
