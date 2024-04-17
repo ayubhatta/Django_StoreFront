@@ -13,3 +13,4 @@ Fixed Circular Dependency; (when two classes depend upon each other at the same 
 # Updated 
 
 Set databases, created Migrations, Customized Database Schema, Connected to MySql, run custom SQL, generated dummy data
+
